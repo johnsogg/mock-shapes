@@ -1,4 +1,4 @@
-export type Point = [number, number];
+import { Point } from "./point";
 
 export const pointsToPath = (points: Point[], closed = false) => {
   const pathStr = points
