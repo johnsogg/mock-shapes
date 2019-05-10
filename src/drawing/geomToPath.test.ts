@@ -1,4 +1,11 @@
-import { aabbPath, aabbSize, pointsToPath, shapeToPath } from './geomToPath';
+import {
+  aabbPath,
+  aabbSize,
+  pointsToPath,
+  shapeToPath,
+  translatePath,
+  toOrigin,
+} from './geomToPath';
 
 it('converts a line segment to path string', () => {
   expect(pointsToPath([[0, 0], [1, 2]])).toBe('M0 0 L1 2');
@@ -43,4 +50,24 @@ it('calculates correct aabb size', () => {
     width: 13,
     height: 5,
   });
+});
+
+it('translates a path correctly', () => {
+  expect(
+    translatePath({
+      path: [[10, 10], [1, 2], [2, 4], [3, 6], [4, 8]],
+      dx: -10,
+      dy: 4,
+    }),
+  ).toEqual([[0, 14], [-9, 6], [-8, 8], [-7, 10], [-6, 12]]);
+});
+
+it('translates a path to the origin correctly', () => {
+  expect(toOrigin([[10, 10], [1, 2], [2, 4], [3, 6], [4, 8]])).toEqual([
+    [9, 8],
+    [0, 0],
+    [1, 2],
+    [2, 4],
+    [3, 6],
+  ]);
 });

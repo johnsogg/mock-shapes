@@ -39,3 +39,20 @@ export const aabbSize = (aabb: Aabb): Size => {
     height: aabb.ptMax[1] - aabb.ptMin[1],
   };
 };
+
+export const translatePath = ({
+  path,
+  dx,
+  dy,
+}: {
+  path: Path;
+  dx: number;
+  dy: number;
+}): Path => {
+  return path.map(pt => [pt[0] + dx, pt[1] + dy]);
+};
+
+export const toOrigin = (path: Path): Path => {
+  const aabb = aabbPath(path);
+  return translatePath({ path, dx: -aabb.ptMin[0], dy: -aabb.ptMin[1] });
+};

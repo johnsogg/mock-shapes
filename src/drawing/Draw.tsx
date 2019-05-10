@@ -4,8 +4,8 @@ import { Shape } from './geometry';
 import { shapeToPath, aabbPath, aabbSize } from './geomToPath';
 
 export const Draw: React.FC<{ shapes: Shape[] }> = ({ shapes }) => {
-  let cursorX = 0;
-  let cursorY = 0;
+  let cursorX = 1;
+  let cursorY = 1;
   let rowHeight = 0;
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
@@ -14,7 +14,7 @@ export const Draw: React.FC<{ shapes: Shape[] }> = ({ shapes }) => {
           const aabb = aabbPath(shape[0]);
           const size = aabbSize(aabb);
           if (size.width + cursorX > window.innerWidth) {
-            cursorX = 0;
+            cursorX = 1;
             cursorY += rowHeight;
             rowHeight = 0;
           } else {
@@ -35,4 +35,4 @@ const SegmentShape: React.FC<{ shape: Shape; x?: number; y?: number }> = ({
   shape,
   x = 0,
   y = 0,
-}) => <Path stroke="black" x={x} y={y} data={shapeToPath(shape)} />;
+}) => <Path stroke="black" x={x} y={y} fill="cyan" data={shapeToPath(shape)} />;
