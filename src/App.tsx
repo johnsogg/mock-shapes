@@ -4,16 +4,16 @@ import { Shape } from './drawing/geometry';
 import { utahPoints } from './data/utah';
 
 const App: React.FC = () => {
-  const [shapes, setShapes] = useState([[utahPoints]] as Shape[]);
+  const [shapes, setShapes] = useState([[utahPoints], [utahPoints]] as Shape[]);
 
   const addShape = () => {
-    console.log('add shape pls');
+    const newVal = [...shapes].concat([[utahPoints]]);
+    setShapes(newVal);
   };
 
   const clearShapes = useCallback(() => {
-    console.log('clear shapes pls', shapes);
     setShapes([]);
-  }, [shapes]);
+  }, []);
 
   return (
     <>
