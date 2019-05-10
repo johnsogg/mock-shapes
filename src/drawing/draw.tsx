@@ -2,24 +2,18 @@ import React from 'react';
 import { Stage, Layer, Path } from 'react-konva';
 import { PathConfig } from 'konva/types/shapes/Path';
 import { pointsToPath } from './pointsToPath';
-import { Point } from './geometry';
+import { Point, Shape } from './geometry';
+// import { utahPoints } from '../data/utah';
 
-const utahPoints: Point[] = [
-  [0, 0],
-  [0, 300],
-  [300, 300],
-  [300, 150],
-  [150, 150],
-  [150, 0],
-];
-
-export const Draw: React.FC = () => (
+export const Draw: React.FC<{ shapes: Shape[] }> = ({ shapes }) => (
   <Stage width={window.innerWidth} height={window.innerHeight}>
     <Layer>
       <RewindIcon x={200} y={350} fill="red" />
-      <UtahShape x={20} y={20} fill="blue" stroke="black" strokeWidth={14} />
-      <SegmentShape points={utahPoints} />
-      <SegmentShape points={utahPoints} x={400} y={50} />
+
+      {/* <SegmentShape points={utahPoints} x={400} y={50} /> */}
+      {shapes.map((shape, idx) => (
+        <SegmentShape key={idx} points={shape[0]} />
+      ))}
     </Layer>
   </Stage>
 );
@@ -33,9 +27,9 @@ const RewindIcon: React.FC<Partial<PathConfig>> = cfg => (
 );
 
 // This is another canned shape, using passed in params to define its origin and styling.
-const UtahShape: React.FC<Partial<PathConfig>> = cfg => (
-  <Path {...cfg} data={pointsToPath(utahPoints, true)} />
-);
+// const UtahShape: React.FC<Partial<PathConfig>> = cfg => (
+//   <Path {...cfg} data={pointsToPath(utahPoints, true)} />
+// );
 
 // Generic shape with canned styling. User can only pass in the point list and optional origin data.
 const SegmentShape: React.FC<{ points: Point[]; x?: number; y?: number }> = ({
