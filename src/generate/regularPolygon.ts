@@ -1,14 +1,14 @@
 import { Point } from '../drawing/geometry';
 import { toOrigin } from '../drawing/geomToPath';
 
-export interface RegularPolygonConfig {
+export interface GenerateRegularPolygonConfig {
   numSides: number;
   radius: number;
 }
 export const generateRegularPolygon = ({
   numSides,
   radius,
-}: RegularPolygonConfig) => {
+}: GenerateRegularPolygonConfig) => {
   const points: Point[] = [];
   const step = (2 * Math.PI) / numSides;
   for (let i = 0; i < numSides; i++) {
