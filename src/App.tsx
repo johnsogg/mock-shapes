@@ -2,16 +2,19 @@ import React, { useState, useCallback } from 'react';
 import { Draw } from './drawing/Draw';
 import { Shape } from './drawing/geometry';
 import { utahPoints } from './data/utah';
-import { generateRegularPolygon } from './generate/regularPolygon';
-import { randomBetween } from './generate/rnd';
+import { generateRectangle } from './generate/rectangle';
 
 const App: React.FC = () => {
   const [shapes, setShapes] = useState([[utahPoints], [utahPoints]] as Shape[]);
 
   const addShape = () => {
-    const newShape = generateRegularPolygon({
-      numSides: randomBetween(3, 8),
-      radius: randomBetween(30, 170),
+    // const newShape = generateRegularPolygon({
+    //   numSides: randomBetween(3, 8),
+    //   radius: randomBetween(30, 170),
+    // });
+    const newShape = generateRectangle({
+      widthRange: [10, 400],
+      heightRange: [50, 150],
     });
     const newVal = [...shapes].concat([[newShape]]);
     setShapes(newVal);
