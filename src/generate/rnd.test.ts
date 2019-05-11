@@ -7,18 +7,21 @@ it('correctly computes a bucketed cumulative distribution', () => {
     { name: 'circle', weight: 3 },
     { name: 'tetris', weight: 6 },
   ];
-  expect(cumulativeDistribution(params)).toEqual([
-    {
-      name: 'polygon',
-      max: 3,
-    },
-    {
-      name: 'circle',
-      max: 6,
-    },
-    {
-      name: 'tetris',
-      max: 12,
-    },
-  ]);
+  expect(cumulativeDistribution(params)).toEqual({
+    max: 13,
+    cdf: [
+      {
+        name: 'polygon',
+        max: 3,
+      },
+      {
+        name: 'circle',
+        max: 6,
+      },
+      {
+        name: 'tetris',
+        max: 12,
+      },
+    ],
+  });
 });

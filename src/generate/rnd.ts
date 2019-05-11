@@ -27,5 +27,5 @@ export const cumulativeDistribution = (
         : acc,
     initialAcc,
   );
-  return total.ret;
+  return { cdf: total.ret, max: total.cursor + 1 };
 };
