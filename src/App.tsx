@@ -17,11 +17,11 @@ const App: React.FC = () => {
   const pdf = [
     {
       name: 'polygon',
-      weight: 3,
+      weight: 0,
     },
     {
       name: 'rectangle',
-      weight: 2,
+      weight: 0,
     },
     {
       name: 'tetris',

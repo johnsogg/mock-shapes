@@ -91,6 +91,18 @@ export const generateTetrisL1 = ({ unit, rotate }: GenerateTetrisConfig) => {
   return maybeRotate(points, rotate);
 };
 
+export const generateTetrisL2 = ({ unit, rotate }: GenerateTetrisConfig) => {
+  const { a, b, c } = tetrisGrid(unit);
+  const points = [[0, 0], [a, 0], [a, b], [b, b], [b, c], [0, c]] as Path;
+  return maybeRotate(points, rotate);
+};
+
+export const generateTetrisI = ({ unit, rotate }: GenerateTetrisConfig) => {
+  const { a, d } = tetrisGrid(unit);
+  const points = [[0, 0], [a, 0], [a, d], [0, d]] as Path;
+  return maybeRotate(points, rotate);
+};
+
 export const generateTetrisShape = ({
   unit,
   rotate,
@@ -104,6 +116,8 @@ export const generateTetrisShape = ({
         'Z1',
         'Z2',
         'L1',
+        'L2',
+        'I',
       ]);
       return generateTetrisShape({ unit, rotate, form: randomForm });
     }
@@ -117,6 +131,10 @@ export const generateTetrisShape = ({
       return generateTetrisZ2({ unit, rotate, form: 'Z2' });
     case 'L1':
       return generateTetrisL1({ unit, rotate, form: 'L1' });
+    case 'L2':
+      return generateTetrisL2({ unit, rotate, form: 'L2' });
+    case 'I':
+      return generateTetrisI({ unit, rotate, form: 'I' });
     default: {
       return generateTetrisShape({ unit, rotate, form: 'random' });
     }
