@@ -1,6 +1,6 @@
+import { Path } from '../drawing/geometry';
 import { rotatePath, toOrigin } from '../drawing/geomToPath';
-import { Point, Path } from '../drawing/geometry';
-import { randomInRange, pickRandom } from './rnd';
+import { pickRandom, randomInRange } from './rnd';
 
 type TetrisForm = 'square' | 'T' | 'Z1' | 'Z2' | 'L1' | 'L2' | 'I';
 
@@ -55,6 +55,42 @@ export const generateTetrisT = ({ unit, rotate }: GenerateTetrisConfig) => {
   return maybeRotate(points, rotate);
 };
 
+export const generateTetrisZ1 = ({ unit, rotate }: GenerateTetrisConfig) => {
+  const { a, b, c } = tetrisGrid(unit);
+  const points = [
+    [a, 0],
+    [c, 0],
+    [c, a],
+    [b, a],
+    [b, b],
+    [0, b],
+    [0, a],
+    [a, a],
+  ] as Path;
+  return maybeRotate(points, rotate);
+};
+
+export const generateTetrisZ2 = ({ unit, rotate }: GenerateTetrisConfig) => {
+  const { a, b, c } = tetrisGrid(unit);
+  const points = [
+    [0, 0],
+    [b, 0],
+    [b, a],
+    [c, a],
+    [c, b],
+    [a, b],
+    [a, a],
+    [0, a],
+  ] as Path;
+  return maybeRotate(points, rotate);
+};
+
+export const generateTetrisL1 = ({ unit, rotate }: GenerateTetrisConfig) => {
+  const { a, b, c } = tetrisGrid(unit);
+  const points = [[a, 0], [b, 0], [b, c], [0, c], [0, b], [a, b]] as Path;
+  return maybeRotate(points, rotate);
+};
+
 export const generateTetrisShape = ({
   unit,
   rotate,
@@ -62,13 +98,25 @@ export const generateTetrisShape = ({
 }: GenerateTetrisConfig): Path => {
   switch (form) {
     case 'random': {
-      const randomForm = pickRandom<TetrisForm>(['square', 'T']);
+      const randomForm = pickRandom<TetrisForm>([
+        'square',
+        'T',
+        'Z1',
+        'Z2',
+        'L1',
+      ]);
       return generateTetrisShape({ unit, rotate, form: randomForm });
     }
     case 'square':
       return generateTetrisSquare({ unit, rotate, form: 'square' });
     case 'T':
       return generateTetrisT({ unit, rotate, form: 'T' });
+    case 'Z1':
+      return generateTetrisZ1({ unit, rotate, form: 'Z1' });
+    case 'Z2':
+      return generateTetrisZ2({ unit, rotate, form: 'Z2' });
+    case 'L1':
+      return generateTetrisL1({ unit, rotate, form: 'L1' });
     default: {
       return generateTetrisShape({ unit, rotate, form: 'random' });
     }
