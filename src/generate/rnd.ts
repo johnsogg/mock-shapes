@@ -1,4 +1,4 @@
-export const randomBetween = (low: number, high: number) => {
+export const randomInRange = (low: number, high: number) => {
   return Math.floor(Math.random() * (high - low + 1)) + low;
 };
 
@@ -27,5 +27,20 @@ export const cumulativeDistribution = (
         : acc,
     initialAcc,
   );
-  return { cdf: total.ret, max: total.cursor + 1 };
+  return { cdf: total.ret, bound: total.cursor + 1 };
+};
+
+export const pickFromCdf = (
+  cdf: CumulativeDistributionReturn[],
+  bound: number,
+) => {
+  const chance = randomInRange(0, bound - 1);
+  for (let i = 0; i < cdf.length; i++) {
+    if (cdf[i].max >= chance) {
+      return cdf[i].name;
+    }
+  }
+
+  console.warn("pickFromCdf couldn't find anything to return"); // eslint-disable-line
+  return '';
 };
