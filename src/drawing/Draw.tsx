@@ -16,7 +16,7 @@ export const Draw: React.FC<{ shapes: Shape[] }> = ({ shapes }) => {
           if (size.width + cursorX > window.innerWidth) {
             cursorX = 1;
             cursorY += rowHeight;
-            rowHeight = 0;
+            rowHeight = size.height;
           } else {
             rowHeight = Math.max(rowHeight, size.height);
           }
