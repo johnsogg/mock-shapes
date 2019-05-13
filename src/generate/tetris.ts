@@ -1,6 +1,6 @@
 import { rotatePath, toOrigin } from '../drawing/geomToPath';
 import { Point, Path } from '../drawing/geometry';
-import { randomInRange } from './rnd';
+import { randomInRange, pickRandom } from './rnd';
 
 type TetrisForm = 'square' | 'T' | 'Z1' | 'Z2' | 'L1' | 'L2' | 'I';
 
@@ -36,6 +36,41 @@ export const generateTetrisSquare = ({
   rotate,
 }: GenerateTetrisConfig) => {
   const { b } = tetrisGrid(unit);
-  const points = [[0, 0], [0, b], [b, b], [b, 0]] as Point[];
+  const points = [[0, 0], [0, b], [b, b], [b, 0]] as Path;
   return maybeRotate(points, rotate);
+};
+
+export const generateTetrisT = ({ unit, rotate }: GenerateTetrisConfig) => {
+  const { a, b, c } = tetrisGrid(unit);
+  const points = [
+    [a, 0],
+    [b, 0],
+    [b, a],
+    [c, a],
+    [c, b],
+    [0, b],
+    [0, a],
+    [a, a],
+  ] as Path;
+  return maybeRotate(points, rotate);
+};
+
+export const generateTetrisShape = ({
+  unit,
+  rotate,
+  form,
+}: GenerateTetrisConfig): Path => {
+  switch (form) {
+    case 'random': {
+      const randomForm = pickRandom<TetrisForm>(['square', 'T']);
+      return generateTetrisShape({ unit, rotate, form: randomForm });
+    }
+    case 'square':
+      return generateTetrisSquare({ unit, rotate, form: 'square' });
+    case 'T':
+      return generateTetrisT({ unit, rotate, form: 'T' });
+    default: {
+      return generateTetrisShape({ unit, rotate, form: 'random' });
+    }
+  }
 };

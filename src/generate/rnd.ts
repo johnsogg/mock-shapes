@@ -1,5 +1,6 @@
 export const randomInRange = (low: number, high: number) => {
-  return Math.floor(Math.random() * (high - low + 1)) + low;
+  const ret = Math.floor(Math.random() * (high - low + 1)) + low;
+  return ret;
 };
 
 interface CumulativeDistributionParam {
@@ -43,4 +44,8 @@ export const pickFromCdf = (
 
   console.warn("pickFromCdf couldn't find anything to return"); // eslint-disable-line
   return '';
+};
+
+export const pickRandom = <T>(list: T[]) => {
+  return list[randomInRange(0, list.length - 1)];
 };

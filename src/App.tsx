@@ -9,6 +9,7 @@ import {
   randomInRange,
 } from './generate/rnd';
 import { generateRegularPolygon } from './generate/regularPolygon';
+import { generateTetrisShape } from './generate/tetris';
 
 const App: React.FC = () => {
   const [shapes, setShapes] = useState([[utahPoints], [utahPoints]] as Shape[]);
@@ -21,6 +22,10 @@ const App: React.FC = () => {
     {
       name: 'rectangle',
       weight: 2,
+    },
+    {
+      name: 'tetris',
+      weight: 20,
     },
   ];
 
@@ -38,6 +43,12 @@ const App: React.FC = () => {
         return generateRectangle({
           widthRange: [10, 400],
           heightRange: [50, 150],
+        });
+      case 'tetris':
+        return generateTetrisShape({
+          unit: 20,
+          rotate: 'none',
+          form: 'random',
         });
       default:
         console.warn('invalid generator name:', generator); // eslint-disable-line
