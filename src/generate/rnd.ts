@@ -3,6 +3,11 @@ export const randomInRange = (low: number, high: number) => {
   return ret;
 };
 
+export const randomFloatInRange = (low: number, high: number) => {
+  const ret = Math.random() * (high - low) + low;
+  return ret;
+};
+
 interface CumulativeDistributionParam {
   name: string;
   weight: number;

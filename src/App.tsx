@@ -9,19 +9,24 @@ import {
 } from './generate/rnd';
 import { generateRegularPolygon } from './generate/regularPolygon';
 import { generateTetrisShape } from './generate/tetris';
+import { generateIrregularPolygon } from './generate/irregularPolyon';
 
 const pdf = [
   {
     name: 'polygon',
-    weight: 5,
+    weight: 0,
+  },
+  {
+    name: 'irregular polygon',
+    weight: 1,
   },
   {
     name: 'rectangle',
-    weight: 2,
+    weight: 0,
   },
   {
     name: 'tetris',
-    weight: 5,
+    weight: 0,
   },
 ];
 
@@ -37,6 +42,11 @@ const App: React.FC = () => {
         return generateRegularPolygon({
           numSides: randomInRange(3, 8),
           radius: randomInRange(5, 25),
+        });
+      case 'irregular polygon':
+        return generateIrregularPolygon({
+          numSides: [3, 12],
+          radius: [5, 50],
         });
       case 'rectangle':
         return generateRectangle({
