@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Draw } from './drawing/Draw';
 import { Shape } from './drawing/geometry';
-import { utahPoints } from './data/utah';
 import { generateRectangle } from './generate/rectangle';
 import {
   cumulativeDistribution,
@@ -11,38 +10,38 @@ import {
 import { generateRegularPolygon } from './generate/regularPolygon';
 import { generateTetrisShape } from './generate/tetris';
 
-const App: React.FC = () => {
-  const [shapes, setShapes] = useState([[utahPoints], [utahPoints]] as Shape[]);
+const pdf = [
+  {
+    name: 'polygon',
+    weight: 5,
+  },
+  {
+    name: 'rectangle',
+    weight: 2,
+  },
+  {
+    name: 'tetris',
+    weight: 5,
+  },
+];
 
-  const pdf = [
-    {
-      name: 'polygon',
-      weight: 0,
-    },
-    {
-      name: 'rectangle',
-      weight: 0,
-    },
-    {
-      name: 'tetris',
-      weight: 20,
-    },
-  ];
+const App: React.FC = () => {
+  const [shapes, setShapes] = useState([] as Shape[]);
 
   const { cdf, bound } = cumulativeDistribution(pdf);
 
-  const chooseShape = () => {
+  const chooseShape = useCallback(() => {
     const generator = pickFromCdf(cdf, bound);
     switch (generator) {
       case 'polygon':
         return generateRegularPolygon({
           numSides: randomInRange(3, 8),
-          radius: randomInRange(30, 170),
+          radius: randomInRange(5, 25),
         });
       case 'rectangle':
         return generateRectangle({
-          widthRange: [10, 400],
-          heightRange: [50, 150],
+          widthRange: [5, 50],
+          heightRange: [5, 50],
         });
       case 'tetris':
         return generateTetrisShape({
@@ -54,16 +53,16 @@ const App: React.FC = () => {
         console.warn('invalid generator name:', generator); // eslint-disable-line
         return null;
     }
-  };
+  }, [bound, cdf]);
 
-  const addShape = () => {
+  const addShape = useCallback(() => {
     const newShape = chooseShape();
     if (newShape == null) {
       return;
     }
     const newVal = [...shapes].concat([[newShape]]);
     setShapes(newVal);
-  };
+  }, [chooseShape, shapes]);
 
   const clearShapes = useCallback(() => {
     setShapes([]);
