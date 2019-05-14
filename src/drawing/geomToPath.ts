@@ -65,6 +65,22 @@ export const toOrigin = (path: Path): Path => {
   return translatePath({ path, dx: -aabb.ptMin[0], dy: -aabb.ptMin[1] });
 };
 
+// Rotate a point about the origin by the given angle.
+export const rotatePoint = ({
+  point,
+  radians,
+}: {
+  point: Point;
+  radians: number;
+}) => {
+  const cos = Math.cos(radians);
+  const sin = Math.sin(radians);
+  return [
+    point[0] * cos - point[1] * sin,
+    point[1] * cos + point[0] * sin,
+  ] as Point;
+};
+
 // Rotates all points in the path by the given amount about the origin.
 export const rotatePath = ({
   path,
@@ -73,7 +89,9 @@ export const rotatePath = ({
   path: Path;
   radians: number;
 }) => {
+  const cos = Math.cos(radians);
+  const sin = Math.sin(radians);
   return path.map(
-    pt => [pt[0] * Math.cos(radians), pt[1] * Math.sin(radians)] as Point,
+    pt => [pt[0] * cos - pt[1] * sin, pt[1] * cos + pt[0] * sin] as Point,
   );
 };

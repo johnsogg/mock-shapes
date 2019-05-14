@@ -47,7 +47,7 @@ const App: React.FC = () => {
       case 'tetris':
         return generateTetrisShape({
           unit: 20,
-          rotate: 'none',
+          rotate: 'random',
           form: 'random',
         });
       default:
