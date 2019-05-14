@@ -5,16 +5,17 @@ import { generateRectangle } from './generate/rectangle';
 import {
   cumulativeDistribution,
   pickFromCdf,
-  randomInRange,
+  randomIntegerInRange,
 } from './generate/rnd';
 import { generateRegularPolygon } from './generate/regularPolygon';
 import { generateTetrisShape } from './generate/tetris';
 import { generateIrregularPolygon } from './generate/irregularPolyon';
 
+// ordered but otherwise independent weights for the different shape generators.
 const pdf = [
   {
     name: 'polygon',
-    weight: 0,
+    weight: 1,
   },
   {
     name: 'irregular polygon',
@@ -22,48 +23,49 @@ const pdf = [
   },
   {
     name: 'rectangle',
-    weight: 0,
+    weight: 1,
   },
   {
     name: 'tetris',
-    weight: 0,
+    weight: 1,
   },
 ];
 
+// the above probability distribution function turned into a CDF.
+const { cdf, bound } = cumulativeDistribution(pdf);
+
+const chooseShape = () => {
+  const generator = pickFromCdf(cdf, bound);
+  switch (generator) {
+    case 'polygon':
+      return generateRegularPolygon({
+        numSides: randomIntegerInRange(3, 8),
+        radius: randomIntegerInRange(5, 25),
+      });
+    case 'irregular polygon':
+      return generateIrregularPolygon({
+        numSides: [3, 12],
+        radius: [5, 50],
+      });
+    case 'rectangle':
+      return generateRectangle({
+        widthRange: [5, 50],
+        heightRange: [5, 50],
+      });
+    case 'tetris':
+      return generateTetrisShape({
+        unit: 20,
+        rotate: 'random',
+        form: 'random',
+      });
+    default:
+      console.warn('invalid generator name:', generator); // eslint-disable-line
+      return null;
+  }
+};
+
 const App: React.FC = () => {
   const [shapes, setShapes] = useState([] as Shape[]);
-
-  const { cdf, bound } = cumulativeDistribution(pdf);
-
-  const chooseShape = useCallback(() => {
-    const generator = pickFromCdf(cdf, bound);
-    switch (generator) {
-      case 'polygon':
-        return generateRegularPolygon({
-          numSides: randomInRange(3, 8),
-          radius: randomInRange(5, 25),
-        });
-      case 'irregular polygon':
-        return generateIrregularPolygon({
-          numSides: [3, 12],
-          radius: [5, 50],
-        });
-      case 'rectangle':
-        return generateRectangle({
-          widthRange: [5, 50],
-          heightRange: [5, 50],
-        });
-      case 'tetris':
-        return generateTetrisShape({
-          unit: 20,
-          rotate: 'random',
-          form: 'random',
-        });
-      default:
-        console.warn('invalid generator name:', generator); // eslint-disable-line
-        return null;
-    }
-  }, [bound, cdf]);
 
   const addShape = useCallback(() => {
     const newShape = chooseShape();
@@ -72,7 +74,7 @@ const App: React.FC = () => {
     }
     const newVal = [...shapes].concat([[newShape]]);
     setShapes(newVal);
-  }, [chooseShape, shapes]);
+  }, [shapes]);
 
   const clearShapes = useCallback(() => {
     setShapes([]);

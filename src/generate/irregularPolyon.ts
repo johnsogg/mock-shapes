@@ -1,4 +1,4 @@
-import { randomInRange, randomFloatInRange } from './rnd';
+import { randomIntegerInRange, randomFloatInRange } from './rnd';
 import { Point } from '../drawing/geometry';
 import { toOrigin } from '../drawing/geomToPath';
 
@@ -7,12 +7,13 @@ export interface GenerateIrregularPolygonConfig {
   radius: [number, number];
 }
 
+// Build irregular N-gons with randomly chosen vertices. Can have concave/convex facets.
 export const generateIrregularPolygon = ({
   numSides,
   radius,
 }: GenerateIrregularPolygonConfig) => {
   // pick number of sides from our range
-  const sides = randomInRange(numSides[0], numSides[1]);
+  const sides = randomIntegerInRange(numSides[0], numSides[1]);
 
   // each side corresponds to a vertex with a random angle
   // we chop up the angle space by the number of sides and let

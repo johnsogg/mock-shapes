@@ -1,6 +1,6 @@
 import { Path } from '../drawing/geometry';
 import { rotatePath, toOrigin } from '../drawing/geomToPath';
-import { pickRandom, randomInRange } from './rnd';
+import { pickRandom, randomIntegerInRange } from './rnd';
 
 type TetrisForm = 'square' | 'T' | 'Z1' | 'Z2' | 'L1' | 'L2' | 'I';
 
@@ -24,7 +24,7 @@ const maybeRotate = (points: Path, rotate: number | 'random' | 'none') => {
     return toOrigin(
       rotatePath({
         path: points,
-        radians: cardinalAngles[randomInRange(0, 3)],
+        radians: cardinalAngles[randomIntegerInRange(0, 3)],
       }),
     );
   }

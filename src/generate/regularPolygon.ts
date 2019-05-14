@@ -5,6 +5,8 @@ export interface GenerateRegularPolygonConfig {
   numSides: number;
   radius: number;
 }
+
+// Make a regular N-gon whose sides are all the same given length.
 export const generateRegularPolygon = ({
   numSides,
   radius,

@@ -1,9 +1,9 @@
-import { cumulativeDistribution, randomInRange } from './rnd';
+import { cumulativeDistribution, randomIntegerInRange } from './rnd';
 
 it('gives random numbers in the desired range', () => {
   const results: { [i: number]: number } = {};
   for (let i = 0; i < 100; i++) {
-    const r = randomInRange(1, 4);
+    const r = randomIntegerInRange(1, 4);
     expect(r <= 4).toBe(true) && expect(r >= 1).toBe(true);
     results[r] == null ? (results[r] = results[r] + 1) : (results[r] = 1);
   }
