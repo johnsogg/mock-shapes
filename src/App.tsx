@@ -2,23 +2,42 @@ import React, { useState } from 'react';
 import { AddShapes } from './AddShapes';
 import { Draw } from './drawing/Draw';
 import { Shape } from './drawing/geometry';
-import { generateIrregularPolygon } from './generate/irregularPolyon';
-import { generateRectangle } from './generate/rectangle';
-import { generateRegularPolygon } from './generate/regularPolygon';
+import {
+  generateIrregularPolygon,
+  GenerateIrregularPolygonConfig,
+} from './generate/irregularPolyon';
+import {
+  generateRectangle,
+  GenerateRectangleConfig,
+} from './generate/rectangle';
+import {
+  generateRegularPolygon,
+  GenerateRegularPolygonKnobs,
+} from './generate/regularPolygon';
 import {
   cumulativeDistribution,
   pickFromCdf,
   randomIntegerInRange,
   CumulativeDistributionReturn,
 } from './generate/rnd';
-import { generateTetrisShape } from './generate/tetris';
+import {
+  generateTetrisShape,
+  TetrisForm,
+  GenerateTetrisConfig,
+} from './generate/tetris';
 import { GeneratorKnobs } from './GeneratorKnobs';
 import { ShowConditionally } from './ShowConditionally';
 
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+export type ShapeName =
+  | 'rectangle'
+  | 'polygon'
+  | 'irregular polygon'
+  | 'tetris';
 export const MAX_NUM_SHAPES = 200;
 
 // ordered but otherwise independent weights for the different shape generators.
-const initialPdf = [
+const initialPdf: { name: ShapeName; weight: number }[] = [
   {
     name: 'polygon',
     weight: 1,
@@ -67,12 +86,42 @@ const chooseShape = (cdf: CumulativeDistributionReturn[], bound: number) => {
   }
 };
 
+export type KnobCfg =
+  | GenerateRegularPolygonKnobs
+  | GenerateIrregularPolygonConfig
+  | GenerateRectangleConfig
+  | GenerateTetrisConfig;
+
+const initialKnobCfg: Record<ShapeName, KnobCfg> = {
+  polygon: {
+    type: 'polygon',
+    numSides: [3, 8] as [number, number],
+    radius: [5, 25] as [number, number],
+  },
+  'irregular polygon': {
+    type: 'irregular polygon',
+    numSides: [3, 12] as [number, number],
+    radius: [5, 50] as [number, number],
+  },
+  rectangle: {
+    type: 'rectangle',
+    widthRange: [5, 50] as [number, number],
+    heightRange: [5, 50] as [number, number],
+  },
+  tetris: {
+    type: 'tetris',
+    unit: 20,
+    rotate: 'random' as number | 'random' | 'none',
+    form: 'random' as TetrisForm,
+  },
+};
+
 const App: React.FC = () => {
   const [shapes, setShapes] = useState([] as Shape[]);
   const [weights, setWeights] = useState(initialPdf);
   const { cdf, bound } = cumulativeDistribution(weights);
   const pickShape = () => chooseShape(cdf, bound);
-  const setWeight = (params: { name: string; weight: number }) => {
+  const setWeight = (params: { name: ShapeName; weight: number }) => {
     const newWeights = [...weights];
     const idx = newWeights.findIndex(elm => elm.name === params.name);
     if (idx >= 0) {
@@ -81,6 +130,7 @@ const App: React.FC = () => {
     }
   };
   const [showKnobs, setShowKnobs] = useState(false);
+  const [knobCfg, setKnobCfg] = useState(initialKnobCfg);
 
   return (
     <>
@@ -91,7 +141,12 @@ const App: React.FC = () => {
         change={setShowKnobs}
         what="Probabilities"
       >
-        <GeneratorKnobs weights={weights} setWeight={setWeight} />
+        <GeneratorKnobs
+          weights={weights}
+          setWeight={setWeight}
+          knobs={knobCfg}
+          setKnobs={setKnobCfg}
+        />
       </ShowConditionally>
       <Draw shapes={shapes} />
     </>

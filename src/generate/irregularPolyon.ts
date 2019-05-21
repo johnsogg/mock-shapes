@@ -1,8 +1,10 @@
 import { randomIntegerInRange, randomFloatInRange } from './rnd';
 import { Point } from '../drawing/geometry';
 import { toOrigin } from '../drawing/geomToPath';
+import { Omit } from '../App';
 
 export interface GenerateIrregularPolygonConfig {
+  type: 'irregular polygon';
   numSides: [number, number];
   radius: [number, number];
 }
@@ -11,7 +13,7 @@ export interface GenerateIrregularPolygonConfig {
 export const generateIrregularPolygon = ({
   numSides,
   radius,
-}: GenerateIrregularPolygonConfig) => {
+}: Omit<GenerateIrregularPolygonConfig, 'type'>) => {
   // pick number of sides from our range
   const sides = randomIntegerInRange(numSides[0], numSides[1]);
 

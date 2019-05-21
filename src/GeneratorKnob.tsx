@@ -1,10 +1,42 @@
 import React, { useCallback } from 'react';
-import { MAX_NUM_SHAPES } from './App';
+import { MAX_NUM_SHAPES, ShapeName, KnobCfg } from './App';
+
+const buildKnobs = (name: string) => {
+  switch (name) {
+    case 'rectangle':
+      return (
+        <p>
+          Controls for a <b>rectangle</b>
+        </p>
+      );
+    case 'polygon':
+      return (
+        <p>
+          Controls for a <b>polygon</b>
+        </p>
+      );
+    case 'irregular polygon':
+      return (
+        <p>
+          Controls for an <b>irregular polygon</b>
+        </p>
+      );
+    case 'tetris':
+      return (
+        <p>
+          Controls for <b>tetris</b> pieces
+        </p>
+      );
+    default:
+      return null;
+  }
+};
 
 export const GeneratorKnob: React.FC<{
-  weight: { name: string; weight: number };
-  setWeight: (params: { name: string; weight: number }) => void;
-}> = ({ weight, setWeight }) => {
+  weight: { name: ShapeName; weight: number };
+  setWeight: (params: { name: ShapeName; weight: number }) => void;
+  knob: KnobCfg;
+}> = ({ weight, setWeight, knob }) => {
   const decrementEvent = useCallback(() => {
     setWeight({ name: weight.name, weight: Math.max(0, weight.weight - 1) });
   }, [setWeight, weight]);
@@ -30,6 +62,8 @@ export const GeneratorKnob: React.FC<{
         value="+"
         onClick={incrementEvent}
       />
+      {buildKnobs(weight.name)}
+      make knob for {knob.type}
     </div>
   );
 };

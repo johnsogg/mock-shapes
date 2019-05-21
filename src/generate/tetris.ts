@@ -1,14 +1,18 @@
 import { Path } from '../drawing/geometry';
 import { rotatePath, toOrigin } from '../drawing/geomToPath';
 import { pickRandom, randomIntegerInRange } from './rnd';
+import { Omit } from '../App';
 
-type TetrisForm = 'square' | 'T' | 'Z1' | 'Z2' | 'L1' | 'L2' | 'I';
+export type TetrisForm = 'square' | 'T' | 'Z1' | 'Z2' | 'L1' | 'L2' | 'I';
 
 export interface GenerateTetrisConfig {
+  type: 'tetris';
   unit: number;
   rotate: number | 'random' | 'none';
   form: TetrisForm | 'random';
 }
+
+type TetrisCfgNoType = Omit<GenerateTetrisConfig, 'type'>;
 
 export const cardinalAngles = [0, Math.PI / 2, Math.PI, (Math.PI * 3) / 2];
 
@@ -31,16 +35,13 @@ const maybeRotate = (points: Path, rotate: number | 'random' | 'none') => {
   return points;
 };
 
-export const generateTetrisSquare = ({
-  unit,
-  rotate,
-}: GenerateTetrisConfig) => {
+export const generateTetrisSquare = ({ unit, rotate }: TetrisCfgNoType) => {
   const { b } = tetrisGrid(unit);
   const points = [[0, 0], [0, b], [b, b], [b, 0]] as Path;
   return maybeRotate(points, rotate);
 };
 
-export const generateTetrisT = ({ unit, rotate }: GenerateTetrisConfig) => {
+export const generateTetrisT = ({ unit, rotate }: TetrisCfgNoType) => {
   const { a, b, c } = tetrisGrid(unit);
   const points = [
     [a, 0],
@@ -55,7 +56,7 @@ export const generateTetrisT = ({ unit, rotate }: GenerateTetrisConfig) => {
   return maybeRotate(points, rotate);
 };
 
-export const generateTetrisZ1 = ({ unit, rotate }: GenerateTetrisConfig) => {
+export const generateTetrisZ1 = ({ unit, rotate }: TetrisCfgNoType) => {
   const { a, b, c } = tetrisGrid(unit);
   const points = [
     [a, 0],
@@ -70,7 +71,7 @@ export const generateTetrisZ1 = ({ unit, rotate }: GenerateTetrisConfig) => {
   return maybeRotate(points, rotate);
 };
 
-export const generateTetrisZ2 = ({ unit, rotate }: GenerateTetrisConfig) => {
+export const generateTetrisZ2 = ({ unit, rotate }: TetrisCfgNoType) => {
   const { a, b, c } = tetrisGrid(unit);
   const points = [
     [0, 0],
@@ -85,19 +86,19 @@ export const generateTetrisZ2 = ({ unit, rotate }: GenerateTetrisConfig) => {
   return maybeRotate(points, rotate);
 };
 
-export const generateTetrisL1 = ({ unit, rotate }: GenerateTetrisConfig) => {
+export const generateTetrisL1 = ({ unit, rotate }: TetrisCfgNoType) => {
   const { a, b, c } = tetrisGrid(unit);
   const points = [[a, 0], [b, 0], [b, c], [0, c], [0, b], [a, b]] as Path;
   return maybeRotate(points, rotate);
 };
 
-export const generateTetrisL2 = ({ unit, rotate }: GenerateTetrisConfig) => {
+export const generateTetrisL2 = ({ unit, rotate }: TetrisCfgNoType) => {
   const { a, b, c } = tetrisGrid(unit);
   const points = [[0, 0], [a, 0], [a, b], [b, b], [b, c], [0, c]] as Path;
   return maybeRotate(points, rotate);
 };
 
-export const generateTetrisI = ({ unit, rotate }: GenerateTetrisConfig) => {
+export const generateTetrisI = ({ unit, rotate }: TetrisCfgNoType) => {
   const { a, d } = tetrisGrid(unit);
   const points = [[0, 0], [a, 0], [a, d], [0, d]] as Path;
   return maybeRotate(points, rotate);
@@ -107,7 +108,7 @@ export const generateTetrisShape = ({
   unit,
   rotate,
   form,
-}: GenerateTetrisConfig): Path => {
+}: TetrisCfgNoType): Path => {
   switch (form) {
     case 'random': {
       const randomForm = pickRandom<TetrisForm>([

@@ -1,7 +1,9 @@
 import { Point } from '../drawing/geometry';
 import { randomIntegerInRange } from './rnd';
+import { Omit } from '../App';
 
 export interface GenerateRectangleConfig {
+  type: 'rectangle';
   widthRange: [number, number];
   heightRange: [number, number];
 }
@@ -10,7 +12,7 @@ export interface GenerateRectangleConfig {
 export const generateRectangle = ({
   widthRange,
   heightRange,
-}: GenerateRectangleConfig) => {
+}: Omit<GenerateRectangleConfig, 'type'>) => {
   const width = randomIntegerInRange(widthRange[0], widthRange[1]);
   const height = randomIntegerInRange(heightRange[0], heightRange[1]);
   const points: Point[] = [[0, 0], [width, 0], [width, height], [0, height]];
