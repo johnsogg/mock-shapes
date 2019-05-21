@@ -1,42 +1,43 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
+import { AddShapes } from './AddShapes';
 import { Draw } from './drawing/Draw';
 import { Shape } from './drawing/geometry';
+import { generateIrregularPolygon } from './generate/irregularPolyon';
 import { generateRectangle } from './generate/rectangle';
+import { generateRegularPolygon } from './generate/regularPolygon';
 import {
   cumulativeDistribution,
   pickFromCdf,
   randomIntegerInRange,
+  CumulativeDistributionReturn,
 } from './generate/rnd';
-import { generateRegularPolygon } from './generate/regularPolygon';
 import { generateTetrisShape } from './generate/tetris';
-import { generateIrregularPolygon } from './generate/irregularPolyon';
+import { GeneratorKnobs } from './GeneratorKnobs';
+import { ShowConditionally } from './ShowConditionally';
 
-const MAX_NUM_SHAPES = 200;
+export const MAX_NUM_SHAPES = 200;
 
 // ordered but otherwise independent weights for the different shape generators.
-const pdf = [
+const initialPdf = [
   {
     name: 'polygon',
     weight: 1,
   },
   {
     name: 'irregular polygon',
-    weight: 1,
+    weight: 2,
   },
   {
     name: 'rectangle',
-    weight: 1,
+    weight: 3,
   },
   {
     name: 'tetris',
-    weight: 1,
+    weight: 4,
   },
 ];
 
-// the above probability distribution function turned into a CDF.
-const { cdf, bound } = cumulativeDistribution(pdf);
-
-const chooseShape = () => {
+const chooseShape = (cdf: CumulativeDistributionReturn[], bound: number) => {
   const generator = pickFromCdf(cdf, bound);
   switch (generator) {
     case 'polygon':
@@ -68,75 +69,30 @@ const chooseShape = () => {
 
 const App: React.FC = () => {
   const [shapes, setShapes] = useState([] as Shape[]);
-  const [numShapes, setNumShapes] = useState(3);
-
-  const validateNumShapes = useCallback(
-    (ev: React.ChangeEvent<HTMLInputElement>) => {
-      if (ev.target.value === '') {
-        setNumShapes(0);
-      }
-      const parsed = Number.parseInt(ev.target.value, 10);
-      if (!Number.isNaN(parsed)) {
-        setNumShapes(Math.min(parsed, MAX_NUM_SHAPES));
-      }
-    },
-    [],
-  );
-  const addShape = useCallback(() => {
-    const newVal = [...shapes];
-    for (let i = 0; i < numShapes; i++) {
-      const newShape = chooseShape();
-      if (newShape == null) {
-        return;
-      }
-      newVal.push([newShape]);
+  const [weights, setWeights] = useState(initialPdf);
+  const { cdf, bound } = cumulativeDistribution(weights);
+  const pickShape = () => chooseShape(cdf, bound);
+  const setWeight = (params: { name: string; weight: number }) => {
+    const newWeights = [...weights];
+    const idx = newWeights.findIndex(elm => elm.name === params.name);
+    if (idx >= 0) {
+      newWeights[idx] = params;
+      setWeights(newWeights);
     }
-    setShapes(newVal);
-  }, [numShapes, shapes]);
-
-  const clearShapes = useCallback(() => {
-    setShapes([]);
-  }, []);
-
-  const incrementNumShapes = useCallback(() => {
-    setNumShapes(Math.min(numShapes + 1, MAX_NUM_SHAPES));
-  }, [numShapes]);
-
-  const decrementNumShapes = useCallback(() => {
-    setNumShapes(Math.max(0, numShapes - 1));
-  }, [numShapes]);
+  };
+  const [showKnobs, setShowKnobs] = useState(false);
 
   return (
     <>
       <h1>Mock Shapes Demo</h1>
-      <input type="text" value={numShapes} onChange={validateNumShapes} />
-      <input
-        className="safe"
-        type="button"
-        onClick={decrementNumShapes}
-        value="-"
-        disabled={numShapes === 0}
-      />
-      <input
-        className="safe"
-        type="button"
-        onClick={incrementNumShapes}
-        value="+"
-        disabled={numShapes === MAX_NUM_SHAPES}
-      />
-      <input
-        className="cta"
-        type="button"
-        onClick={addShape}
-        disabled={numShapes === 0}
-        value={`Add ${numShapes} Shapes`}
-      />
-      <input
-        className="safe"
-        type="button"
-        onClick={clearShapes}
-        value="Clear"
-      />
+      <AddShapes {...{ shapes, setShapes, chooseShape: pickShape }} />
+      <ShowConditionally
+        show={showKnobs}
+        change={setShowKnobs}
+        what="Probabilities"
+      >
+        <GeneratorKnobs weights={weights} setWeight={setWeight} />
+      </ShowConditionally>
       <Draw shapes={shapes} />
     </>
   );

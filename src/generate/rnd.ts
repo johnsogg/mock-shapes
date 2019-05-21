@@ -16,7 +16,7 @@ interface CumulativeDistributionParam {
   weight: number;
 }
 // A named thing with a maximum value.
-interface CumulativeDistributionReturn {
+export interface CumulativeDistributionReturn {
   name: string;
   max: number;
 }
