@@ -1,14 +1,11 @@
 import React, { useCallback } from 'react';
 import { MAX_NUM_SHAPES, ShapeName, KnobCfg } from './App';
+import { RectangleKnob } from './RectangleKnob';
 
-const buildKnobs = (name: string) => {
-  switch (name) {
+const buildKnobs = (knob: KnobCfg, updateKnob: (newVal: KnobCfg) => void) => {
+  switch (knob.type) {
     case 'rectangle':
-      return (
-        <p>
-          Controls for a <b>rectangle</b>
-        </p>
-      );
+      return <RectangleKnob knob={knob} change={updateKnob} />;
     case 'polygon':
       return (
         <p>
@@ -36,7 +33,8 @@ export const GeneratorKnob: React.FC<{
   weight: { name: ShapeName; weight: number };
   setWeight: (params: { name: ShapeName; weight: number }) => void;
   knob: KnobCfg;
-}> = ({ weight, setWeight, knob }) => {
+  updateKnob: (newVal: KnobCfg) => void;
+}> = ({ weight, setWeight, knob, updateKnob }) => {
   const decrementEvent = useCallback(() => {
     setWeight({ name: weight.name, weight: Math.max(0, weight.weight - 1) });
   }, [setWeight, weight]);
@@ -62,8 +60,7 @@ export const GeneratorKnob: React.FC<{
         value="+"
         onClick={incrementEvent}
       />
-      {buildKnobs(weight.name)}
-      make knob for {knob.type}
+      {buildKnobs(knob, updateKnob)}
     </div>
   );
 };

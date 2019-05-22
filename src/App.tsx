@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { AddShapes } from './AddShapes';
 import { Draw } from './drawing/Draw';
 import { Shape } from './drawing/geometry';
@@ -56,7 +56,11 @@ const initialPdf: { name: ShapeName; weight: number }[] = [
   },
 ];
 
-const chooseShape = (cdf: CumulativeDistributionReturn[], bound: number) => {
+const chooseShape = (
+  cdf: CumulativeDistributionReturn[],
+  bound: number,
+  knobCfg: Record<ShapeName, KnobCfg>,
+) => {
   const generator = pickFromCdf(cdf, bound);
   switch (generator) {
     case 'polygon':
@@ -70,10 +74,7 @@ const chooseShape = (cdf: CumulativeDistributionReturn[], bound: number) => {
         radius: [5, 50],
       });
     case 'rectangle':
-      return generateRectangle({
-        widthRange: [5, 50],
-        heightRange: [5, 50],
-      });
+      return generateRectangle(knobCfg['rectangle'] as GenerateRectangleConfig);
     case 'tetris':
       return generateTetrisShape({
         unit: 20,
@@ -119,28 +120,33 @@ const initialKnobCfg: Record<ShapeName, KnobCfg> = {
 const App: React.FC = () => {
   const [shapes, setShapes] = useState([] as Shape[]);
   const [weights, setWeights] = useState(initialPdf);
-  const { cdf, bound } = cumulativeDistribution(weights);
-  const pickShape = () => chooseShape(cdf, bound);
-  const setWeight = (params: { name: ShapeName; weight: number }) => {
-    const newWeights = [...weights];
-    const idx = newWeights.findIndex(elm => elm.name === params.name);
-    if (idx >= 0) {
-      newWeights[idx] = params;
-      setWeights(newWeights);
-    }
-  };
-  const [showKnobs, setShowKnobs] = useState(false);
   const [knobCfg, setKnobCfg] = useState(initialKnobCfg);
+  const { cdf, bound } = useMemo(() => cumulativeDistribution(weights), [
+    weights,
+  ]);
+  const pickShape = useCallback(() => chooseShape(cdf, bound, knobCfg), [
+    bound,
+    cdf,
+    knobCfg,
+  ]);
+  const setWeight = useCallback(
+    (params: { name: ShapeName; weight: number }) => {
+      const newWeights = [...weights];
+      const idx = newWeights.findIndex(elm => elm.name === params.name);
+      if (idx >= 0) {
+        newWeights[idx] = params;
+        setWeights(newWeights);
+      }
+    },
+    [weights],
+  );
+  const [showKnobs, setShowKnobs] = useState(true); // TODO: false
 
   return (
     <>
       <h1>Mock Shapes Demo</h1>
       <AddShapes {...{ shapes, setShapes, chooseShape: pickShape }} />
-      <ShowConditionally
-        show={showKnobs}
-        change={setShowKnobs}
-        what="Probabilities"
-      >
+      <ShowConditionally show={showKnobs} change={setShowKnobs} what="Knobs">
         <GeneratorKnobs
           weights={weights}
           setWeight={setWeight}
