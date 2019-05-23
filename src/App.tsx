@@ -44,7 +44,7 @@ const initialPdf: { name: ShapeName; weight: number }[] = [
   },
   {
     name: 'irregular polygon',
-    weight: 1,
+    weight: 0,
   },
   {
     name: 'rectangle',
@@ -52,7 +52,7 @@ const initialPdf: { name: ShapeName; weight: number }[] = [
   },
   {
     name: 'tetris',
-    weight: 0,
+    weight: 1,
   },
 ];
 
@@ -70,21 +70,13 @@ const chooseShape = (
         ] as GenerateRegularPolygonKnobs),
       );
     case 'irregular polygon':
-      return generateIrregularPolygon(
-        knobCfg['irregular polygon'] as GenerateIrregularPolygonConfig,
-        //   {
-        //   numSides: [3, 12],
-        //   radius: [5, 50],
-        // }
-      );
+      return generateIrregularPolygon(knobCfg[
+        'irregular polygon'
+      ] as GenerateIrregularPolygonConfig);
     case 'rectangle':
       return generateRectangle(knobCfg['rectangle'] as GenerateRectangleConfig);
     case 'tetris':
-      return generateTetrisShape({
-        unit: 20,
-        rotate: 'random',
-        form: 'random',
-      });
+      return generateTetrisShape(knobCfg['tetris'] as GenerateTetrisConfig);
     default:
       console.warn('invalid generator name:', generator); // eslint-disable-line
       return null;

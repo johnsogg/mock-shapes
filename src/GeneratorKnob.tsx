@@ -3,6 +3,7 @@ import { MAX_NUM_SHAPES, ShapeName, KnobCfg } from './App';
 import { RectangleKnob } from './RectangleKnob';
 import { RegularPolygonKnob } from './RegularPolygonKnob';
 import { IrregularPolygonKnob } from './IrregularPolygonKnob';
+import { TetrisKnob } from './TetrisKnob';
 
 const buildKnobs = (knob: KnobCfg, updateKnob: (newVal: KnobCfg) => void) => {
   switch (knob.type) {
@@ -13,11 +14,7 @@ const buildKnobs = (knob: KnobCfg, updateKnob: (newVal: KnobCfg) => void) => {
     case 'irregular polygon':
       return <IrregularPolygonKnob knob={knob} change={updateKnob} />;
     case 'tetris':
-      return (
-        <p>
-          Controls for <b>tetris</b> pieces
-        </p>
-      );
+      return <TetrisKnob knob={knob} change={updateKnob} />;
     default:
       return null;
   }
