@@ -40,11 +40,11 @@ export const MAX_NUM_SHAPES = 200;
 const initialPdf: { name: ShapeName; weight: number }[] = [
   {
     name: 'polygon',
-    weight: 1,
+    weight: 0,
   },
   {
     name: 'irregular polygon',
-    weight: 0,
+    weight: 1,
   },
   {
     name: 'rectangle',
@@ -70,10 +70,13 @@ const chooseShape = (
         ] as GenerateRegularPolygonKnobs),
       );
     case 'irregular polygon':
-      return generateIrregularPolygon({
-        numSides: [3, 12],
-        radius: [5, 50],
-      });
+      return generateIrregularPolygon(
+        knobCfg['irregular polygon'] as GenerateIrregularPolygonConfig,
+        //   {
+        //   numSides: [3, 12],
+        //   radius: [5, 50],
+        // }
+      );
     case 'rectangle':
       return generateRectangle(knobCfg['rectangle'] as GenerateRectangleConfig);
     case 'tetris':

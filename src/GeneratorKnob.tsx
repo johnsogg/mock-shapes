@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { MAX_NUM_SHAPES, ShapeName, KnobCfg } from './App';
 import { RectangleKnob } from './RectangleKnob';
 import { RegularPolygonKnob } from './RegularPolygonKnob';
+import { IrregularPolygonKnob } from './IrregularPolygonKnob';
 
 const buildKnobs = (knob: KnobCfg, updateKnob: (newVal: KnobCfg) => void) => {
   switch (knob.type) {
@@ -10,11 +11,7 @@ const buildKnobs = (knob: KnobCfg, updateKnob: (newVal: KnobCfg) => void) => {
     case 'polygon':
       return <RegularPolygonKnob knob={knob} change={updateKnob} />;
     case 'irregular polygon':
-      return (
-        <p>
-          Controls for an <b>irregular polygon</b>
-        </p>
-      );
+      return <IrregularPolygonKnob knob={knob} change={updateKnob} />;
     case 'tetris':
       return (
         <p>
