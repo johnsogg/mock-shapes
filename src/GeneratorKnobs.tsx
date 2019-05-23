@@ -10,7 +10,6 @@ export const GeneratorKnobs: React.FC<{
 }> = ({ weights, setWeight, knobs, setKnobs }) => {
   const updateKnob = useCallback(
     (newVal: KnobCfg) => {
-      console.log('update knobs with new value:', newVal);
       const nextKnobs = { ...knobs };
       nextKnobs[newVal.type] = newVal;
       setKnobs(nextKnobs);

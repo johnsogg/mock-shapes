@@ -8,7 +8,7 @@ export const RectangleKnob: React.FC<{
   change: (newVal: KnobCfg) => void;
 }> = ({ knob, change }) => {
   const handleWidthChange = useCallback(
-    (idx: number, newVal: [number, number]) => {
+    (newVal: [number, number]) => {
       const newKnob = { ...knob };
       newKnob.widthRange = newVal;
       change(newKnob);
@@ -16,7 +16,7 @@ export const RectangleKnob: React.FC<{
     [change, knob],
   );
   const handleHeightChange = useCallback(
-    (idx: number, newVal: [number, number]) => {
+    (newVal: [number, number]) => {
       const newKnob = { ...knob };
       newKnob.heightRange = newVal;
       change(newKnob);

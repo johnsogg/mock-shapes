@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 
 export const RangePicker: React.FC<{
   range: [number, number];
-  change: (idx: number, newVal: [number, number]) => void;
+  change: (newVal: [number, number]) => void;
 }> = ({ range, change }) => {
   const handleChange = useCallback(
     (idx: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -10,7 +10,7 @@ export const RangePicker: React.FC<{
       if (Number.isNaN(newVal)) return;
       const newRange = [...range] as [number, number];
       newRange[idx] = newVal;
-      change(idx, newRange);
+      change(newRange);
     },
     [change, range],
   );
