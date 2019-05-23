@@ -1,16 +1,25 @@
 import React, { useCallback } from 'react';
 import { GenerateRectangleConfig } from './generate/rectangle';
 import { KnobCfg } from './App';
+import { RangePicker } from './RangePicker';
 
 export const RectangleKnob: React.FC<{
   knob: GenerateRectangleConfig;
   change: (newVal: KnobCfg) => void;
 }> = ({ knob, change }) => {
-  const handleWidthMin = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const newVal = { ...knob };
-      newVal.widthRange[0] = parseInt(event.currentTarget.value);
-      change(newVal);
+  const handleWidthChange = useCallback(
+    (idx: number, newVal: [number, number]) => {
+      const newKnob = { ...knob };
+      newKnob.widthRange = newVal;
+      change(newKnob);
+    },
+    [change, knob],
+  );
+  const handleHeightChange = useCallback(
+    (idx: number, newVal: [number, number]) => {
+      const newKnob = { ...knob };
+      newKnob.heightRange = newVal;
+      change(newKnob);
     },
     [change, knob],
   );
@@ -18,16 +27,11 @@ export const RectangleKnob: React.FC<{
     <div>
       <div>
         Width:{' '}
-        <input
-          type="text"
-          value={knob.widthRange[0]}
-          onChange={handleWidthMin}
-        />{' '}
-        to <input type="text" value={knob.widthRange[1]} />
+        <RangePicker range={knob.widthRange} change={handleWidthChange} />
       </div>
       <div>
-        Height: <input type="text" value={knob.heightRange[0]} /> to{' '}
-        <input type="text" value={knob.heightRange[1]} />
+        Height:{' '}
+        <RangePicker range={knob.heightRange} change={handleHeightChange} />
       </div>
     </div>
   );
