@@ -1,7 +1,7 @@
-import { Point } from '../drawing/geometry';
-import { toOrigin } from '../drawing/geomToPath';
-import { Omit } from '../App';
+import { Point } from './geometry';
+import { toOrigin } from './geomToPath';
 import { randomIntegerInRange } from './rnd';
+import { Omit } from './helpers';
 
 export interface GenerateRegularPolygonConfig {
   type: 'polygon';

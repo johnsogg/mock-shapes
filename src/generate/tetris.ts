@@ -1,7 +1,7 @@
-import { Path } from '../drawing/geometry';
-import { rotatePath, toOrigin } from '../drawing/geomToPath';
+import { Path } from './geometry';
+import { rotatePath, toOrigin } from './geomToPath';
 import { pickRandom, randomIntegerInRange } from './rnd';
-import { Omit } from '../App';
+import { Omit } from './helpers';
 
 export type TetrisForm = 'square' | 'T' | 'Z1' | 'Z2' | 'L1' | 'L2' | 'I';
 

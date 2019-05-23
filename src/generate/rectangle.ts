@@ -1,6 +1,6 @@
-import { Point } from '../drawing/geometry';
+import { Point } from './geometry';
 import { randomIntegerInRange } from './rnd';
-import { Omit } from '../App';
+import { Omit } from './helpers';
 
 export interface GenerateRectangleConfig {
   type: 'rectangle';

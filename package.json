@@ -1,51 +1,62 @@
 {
-    "name": "mock-shapes",
-    "version": "0.1.0",
-    "private": true,
-    "dependencies": {
-        "@types/jest": "24.0.12",
-        "@types/node": "12.0.0",
-        "@types/react": "16.8.16",
-        "@types/react-dom": "16.8.4",
-        "konva": "^3.2.6",
-        "react": "^16.8.6",
-        "react-dom": "^16.8.6",
-        "react-konva": "^16.8.6",
-        "react-scripts": "3.0.0",
-        "typescript": "3.4.5"
-    },
-    "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject",
-        "eslint-check": "eslint --print-config . | eslint-config-prettier-check"
-    },
-    "browserslist": {
-        "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ]
-    },
-    "devDependencies": {
-        "@typescript-eslint/eslint-plugin": "^1.7.0",
-        "@typescript-eslint/parser": "^1.7.0",
-        "babel-eslint": "^10.0.0",
-        "eslint": "^5.16.0",
-        "eslint-config-airbnb": "^17.1.0",
-        "eslint-config-prettier": "^4.2.0",
-        "eslint-plugin-html": "^5.0.3",
-        "eslint-plugin-import": "^2.17.2",
-        "eslint-plugin-jsx-a11y": "^6.2.1",
-        "eslint-plugin-prettier": "^3.0.1",
-        "eslint-plugin-react": "^7.13.0",
-        "eslint-plugin-react-hooks": "^1.6.0",
-        "prettier": "^1.17.0"
-    }
+  "name": "mock-shapes",
+  "version": "0.0.1",
+  "main": "lib/mock-shapes.js",
+  "module": "lib/mock-shapes.js",
+  "private": true,
+  "author": {
+    "name": "Gabe Johnson",
+    "email": "gabe.johnson@gmail.com"
+  },
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "@types/jest": "24.0.12",
+    "@types/node": "12.0.0",
+    "@types/react": "16.8.16",
+    "@types/react-dom": "16.8.4",
+    "konva": "^3.2.6",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-konva": "^16.8.6",
+    "react-scripts": "3.0.0",
+    "typescript": "3.4.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "eslint-check": "eslint --print-config . | eslint-config-prettier-check"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^1.7.0",
+    "@typescript-eslint/parser": "^1.7.0",
+    "babel-eslint": "^10.0.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^4.2.0",
+    "eslint-plugin-html": "^5.0.3",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "^7.13.0",
+    "eslint-plugin-react-hooks": "^1.6.0",
+    "prettier": "^1.17.0",
+    "webpack": "^4.32.2",
+    "webpack-cli": "^3.3.2"
+  }
 }

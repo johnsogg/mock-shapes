@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { AddShapes } from './AddShapes';
-import { Draw } from './drawing/Draw';
-import { Shape } from './drawing/geometry';
+import { Draw } from './Draw';
+import { Shape } from './generate/geometry';
 import {
   generateIrregularPolygon,
   GenerateIrregularPolygonConfig,
@@ -28,7 +28,6 @@ import {
 import { GeneratorKnobs } from './GeneratorKnobs';
 import { ShowConditionally } from './ShowConditionally';
 
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type ShapeName =
   | 'rectangle'
   | 'polygon'

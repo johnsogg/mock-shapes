@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Shape, Path } from './drawing/geometry';
+import { Shape, Path } from './generate/geometry';
 import { MAX_NUM_SHAPES } from './App';
 
 export const AddShapes: React.FC<{

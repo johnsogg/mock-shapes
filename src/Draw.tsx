@@ -1,7 +1,7 @@
 import React from 'react';
 import { Stage, Layer, Path } from 'react-konva';
-import { Shape } from './geometry';
-import { shapeToPath, aabbPath, aabbSize } from './geomToPath';
+import { Shape } from './generate/geometry';
+import { shapeToPath, aabbPath, aabbSize } from './generate/geomToPath';
 
 export const Draw: React.FC<{ shapes: Shape[] }> = ({ shapes }) => {
   let cursorX = 1;

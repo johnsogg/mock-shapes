@@ -1,5 +1,5 @@
 import { tetrisGrid, generateTetrisSquare } from './tetris';
-import { Path, Point } from '../drawing/geometry';
+import { Path, Point } from './geometry';
 
 const tolerantEquals = (a: number, b: number, precision: number) => {
   const expectedDiff = Math.pow(10, -precision) / 2;

@@ -1,7 +1,7 @@
 import { randomIntegerInRange, randomFloatInRange } from './rnd';
-import { Point } from '../drawing/geometry';
-import { toOrigin } from '../drawing/geomToPath';
-import { Omit } from '../App';
+import { Point } from './geometry';
+import { toOrigin } from './geomToPath';
+import { Omit } from './helpers';
 
 export interface GenerateIrregularPolygonConfig {
   type: 'irregular polygon';

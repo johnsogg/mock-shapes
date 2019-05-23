@@ -1,4 +1,4 @@
-import { Point } from '../drawing/geometry';
+import { Point } from '../generate/geometry';
 
 export const utahPoints: Point[] = [
   [0, 0],
