@@ -1,69 +1,80 @@
 html {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 *,
 *:before,
 *:after {
-    box-sizing: inherit;
+  box-sizing: inherit;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
-        'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-        'Helvetica Neue', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-        monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
 
 button {
-    height: 32px;
-    color: darkslategray;
-    background: lightgrey;
-    font-size: 14px;
-    padding: 8px;
-    margin: 4px;
-    border: 1px solid darkslategray;
-    border-radius: 4px;
+  height: 32px;
+  color: darkslategray;
+  background: lightgrey;
+  font-size: 14px;
+  padding: 8px;
+  margin: 4px;
+  border: 1px solid darkslategray;
+  border-radius: 4px;
 }
 
 input {
-    height: 32px;
-    font-size: 14px;
-    border: 1px solid darkslategray;
-    border-radius: 4px;
-    margin: 4px;
-    outline: none;
+  height: 32px;
+  font-size: 14px;
+  border: 1px solid darkslategray;
+  border-radius: 4px;
+  margin: 4px;
+  outline: none;
 }
 
 input[type='text'] {
-    padding-left: 8px;
-    padding-right: 8px;
+  padding-left: 8px;
+  padding-right: 8px;
 }
 
 input:disabled {
-    color: gray;
-    background: lightgray;
-    border: lightgray;
+  color: gray;
+  background: lightgray;
+  border: lightgray;
 }
 
 input:active {
-    opacity: 0.7;
+  opacity: 0.7;
 }
 
 .safe {
-    background: #f6f6f6;
-    color: darkslategray;
+  background: #f6f6f6;
+  color: darkslategray;
 }
 
 .cta {
-    background: green;
-    color: white;
-    font-weight: 800;
+  background: green;
+  color: white;
+  font-weight: 800;
+}
+
+.code {
+  white-space: pre;
+  font-family: Menlo, monospace;
+  font-size: 10px;
+  padding: 8px;
+  user-select: all;
+  -webkit-box-shadow: inset 0px 0px 10px 0px rgba(102, 102, 102, 1);
+  -moz-box-shadow: inset 0px 0px 10px 0px rgba(102, 102, 102, 1);
+  box-shadow: inset 0px 0px 10px 0px rgba(102, 102, 102, 1);
 }

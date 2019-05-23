@@ -56,11 +56,15 @@ const initialPdf: { name: ShapeName; weight: number }[] = [
   },
 ];
 
-const chooseShape = (
-  cdf: CumulativeDistributionReturn[],
-  bound: number,
-  knobCfg: Record<ShapeName, KnobCfg>,
-) => {
+const chooseShape = ({
+  cdf,
+  bound,
+  knobCfg,
+}: {
+  cdf: CumulativeDistributionReturn[];
+  bound: number;
+  knobCfg: Record<ShapeName, KnobCfg>;
+}) => {
   const generator = pickFromCdf(cdf, bound);
   switch (generator) {
     case 'polygon':
@@ -120,7 +124,7 @@ const App: React.FC = () => {
   const { cdf, bound } = useMemo(() => cumulativeDistribution(weights), [
     weights,
   ]);
-  const pickShape = useCallback(() => chooseShape(cdf, bound, knobCfg), [
+  const pickShape = useCallback(() => chooseShape({ cdf, bound, knobCfg }), [
     bound,
     cdf,
     knobCfg,
@@ -136,7 +140,8 @@ const App: React.FC = () => {
     },
     [weights],
   );
-  const [showKnobs, setShowKnobs] = useState(true); // TODO: false
+  const [showKnobs, setShowKnobs] = useState(false);
+  const [showCode, setShowCode] = useState(true); // TODO: false
 
   return (
     <>
@@ -149,6 +154,11 @@ const App: React.FC = () => {
           knobs={knobCfg}
           setKnobs={setKnobCfg}
         />
+      </ShowConditionally>
+      <ShowConditionally show={showCode} change={setShowCode} what="Code">
+        <div className="code">
+          {JSON.stringify({ cdf, bound, knobCfg }, null, 2)}
+        </div>
       </ShowConditionally>
       <Draw shapes={shapes} />
     </>
