@@ -1,17 +1,14 @@
 import React, { useCallback } from 'react';
 import { MAX_NUM_SHAPES, ShapeName, KnobCfg } from './App';
 import { RectangleKnob } from './RectangleKnob';
+import { RegularPolygonKnob } from './RegularPolygonKnob';
 
 const buildKnobs = (knob: KnobCfg, updateKnob: (newVal: KnobCfg) => void) => {
   switch (knob.type) {
     case 'rectangle':
       return <RectangleKnob knob={knob} change={updateKnob} />;
     case 'polygon':
-      return (
-        <p>
-          Controls for a <b>polygon</b>
-        </p>
-      );
+      return <RegularPolygonKnob knob={knob} change={updateKnob} />;
     case 'irregular polygon':
       return (
         <p>

@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { AddShapes } from './AddShapes';
 import { Draw } from './drawing/Draw';
 import { Shape } from './drawing/geometry';
@@ -13,17 +13,17 @@ import {
 import {
   generateRegularPolygon,
   GenerateRegularPolygonKnobs,
+  buildRegularPolygonConfigFromKnobs,
 } from './generate/regularPolygon';
 import {
   cumulativeDistribution,
-  pickFromCdf,
-  randomIntegerInRange,
   CumulativeDistributionReturn,
+  pickFromCdf,
 } from './generate/rnd';
 import {
+  GenerateTetrisConfig,
   generateTetrisShape,
   TetrisForm,
-  GenerateTetrisConfig,
 } from './generate/tetris';
 import { GeneratorKnobs } from './GeneratorKnobs';
 import { ShowConditionally } from './ShowConditionally';
@@ -44,15 +44,15 @@ const initialPdf: { name: ShapeName; weight: number }[] = [
   },
   {
     name: 'irregular polygon',
-    weight: 2,
+    weight: 0,
   },
   {
     name: 'rectangle',
-    weight: 3,
+    weight: 0,
   },
   {
     name: 'tetris',
-    weight: 4,
+    weight: 0,
   },
 ];
 
@@ -64,10 +64,11 @@ const chooseShape = (
   const generator = pickFromCdf(cdf, bound);
   switch (generator) {
     case 'polygon':
-      return generateRegularPolygon({
-        numSides: randomIntegerInRange(3, 8),
-        radius: randomIntegerInRange(5, 25),
-      });
+      return generateRegularPolygon(
+        buildRegularPolygonConfigFromKnobs(knobCfg[
+          'polygon'
+        ] as GenerateRegularPolygonKnobs),
+      );
     case 'irregular polygon':
       return generateIrregularPolygon({
         numSides: [3, 12],
